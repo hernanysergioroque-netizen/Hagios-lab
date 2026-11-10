@@ -1,0 +1,5 @@
+
+User-agent: *
+Allow: /
+
+Sitemap: https://hernanysergioroque-netizen.github.io/hagios-lab/sitemap.xml
