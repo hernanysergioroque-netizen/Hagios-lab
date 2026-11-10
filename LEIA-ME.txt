@@ -1,0 +1,34 @@
+HAGIOS LAB — SUPABASE (BASE DE DADOS ONLINE)
+
+O QUE ESTA VERSÃO FAZ
+- Guarda projectos numa base de dados PostgreSQL online (Supabase), não em localStorage.
+- Permite iniciar sessão no painel, adicionar, editar, publicar/despublicar e apagar projectos.
+- Permite exportar JSON/CSV e importar cópias JSON.
+- O portfólio público carrega apenas projectos publicados.
+- A segurança é controlada por RLS e por uma lista de administradores.
+
+CONFIGURAÇÃO OBRIGATÓRIA (UMA VEZ)
+1. Cria um projecto em https://supabase.com/ e guarda o Project URL e a anon/public key.
+2. Abre config.js e substitui COLOCA_AQUI_O_PROJECT_URL e COLOCA_AQUI_A_ANON_PUBLIC_KEY.
+3. No Supabase, abre SQL Editor, cria uma query, cola todo o conteúdo de supabase-setup.sql e executa.
+4. Em Authentication > Users, cria o utilizador de administrador (não precisas de permitir registo público).
+5. Copia o UUID desse utilizador. No SQL Editor executa esta query, substituindo o UUID pelo real:
+   insert into public.hagios_admins (user_id) values ('UUID-REAL-DO-ADMIN');
+6. Em Authentication > URL Configuration, configura o URL do site e o URL de redireccionamento conforme o alojamento.
+7. Publica a pasta inteira num alojamento estático (por exemplo, GitHub Pages/Netlify). Não abras só o HTML com file:// para o uso final; usa um servidor/hosting.
+8. Abre /admin/admin.html, inicia sessão com o utilizador criado e testa adicionar/apagar um projecto.
+
+SEGURANÇA
+- A anon/public key foi concebida para uso no navegador, mas só é segura com as políticas RLS activas.
+- NUNCA coloques a service_role key no config.js nem em qualquer ficheiro público.
+- Não cries políticas que permitam a qualquer pessoa inserir/apagar projectos.
+- Mantém o registo público desactivado e adiciona manualmente apenas administradores autorizados à tabela hagios_admins.
+- Se o SQL correr parcialmente com erro, corrige o erro antes de publicar.
+
+TABELA projects
+ id, name, description, category, image_url, project_url, is_published, created_at, updated_at.
+A tabela hagios_admins define quem tem permissão de gestão.
+
+NOTAS
+- Os projectos antigos que existiam apenas no localStorage não são migrados automaticamente. Se precisares deles, exporta a cópia JSON antiga e importa-a pelo painel depois de configurar o Supabase.
+- O ficheiro supabase-setup.sql inclui as políticas de acesso e as permissões.

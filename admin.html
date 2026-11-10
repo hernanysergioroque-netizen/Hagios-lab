@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HAGIOS Lab | Administração</title>
+    <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+    <header class="admin-header">
+        <div>
+            <h1>HAGIOS Lab</h1>
+            <p>Painel de Administração</p>
+        </div>
+        <a href="Hagios%20labs.html" class="back-btn">Ver site</a>
+    </header>
+    <main class="admin-container">
+        <section id="setupNotice" class="admin-intro" hidden>
+            <p class="admin-warning"><strong>Configuração necessária:</strong> abre <code>config.js</code> e coloca o Project URL e a anon/public key do Supabase. Depois executa <code>supabase-setup.sql</code> no SQL Editor do teu projecto.</p>
+        </section>
+        <section id="loginSection" class="project-form-section">
+            <h2>Entrar no painel</h2>
+            <p>Usa a conta de administrador criada no Supabase.</p>
+            <form id="loginForm">
+                <div class="form-group"><label for="adminEmail">Email</label><input type="email" id="adminEmail" autocomplete="username" required></div>
+                <div class="form-group"><label for="adminPassword">Palavra-passe</label><input type="password" id="adminPassword" autocomplete="current-password" required></div>
+                <button type="submit" class="submit-btn" id="loginButton">Entrar</button>
+            </form>
+            <p id="loginMessage" role="status" aria-live="polite"></p>
+        </section>
+        <div id="adminWorkspace" hidden>
+        <section class="admin-intro">
+            <h2>Gerir projetos</h2>
+            <p>Adiciona, edita e organiza os projetos apresentados no portfólio da HAGIOS Lab.</p>
+            <p class="admin-warning">Os projectos são guardados na base de dados Supabase e sincronizados online.</p>
+            <button type="button" id="logoutButton" class="cancel-btn">Terminar sessão</button>
+        </section>
+        <section class="project-form-section">
+            <h2>Adicionar novo projeto</h2>
+            <form id="projectForm">
+                <div class="form-group"><label for="projectName">Nome do projeto</label><input type="text" id="projectName" placeholder="Ex: Website para Barbearia" required></div>
+                <div class="form-group"><label for="projectDescription">Descrição</label><textarea id="projectDescription" placeholder="Descreve o projeto..." required></textarea></div>
+                <div class="form-group"><label for="projectCategory">Categoria</label><select id="projectCategory" required><option value="">Escolher categoria</option><option>Website</option><option>Landing Page</option><option>E-commerce</option><option>Outro</option></select></div>
+                <div class="form-group"><label for="projectImage">Link da imagem (opcional)</label><input type="url" id="projectImage" placeholder="https://exemplo.com/imagem.jpg"></div>
+                <div class="form-group"><label for="projectLink">Link do projeto</label><input type="url" id="projectLink" placeholder="https://exemplo.com"></div>
+                <button type="submit" class="submit-btn" id="submitProject">Adicionar projeto</button>
+                <button type="button" class="cancel-btn" id="cancelEdit" hidden>Cancelar edição</button>
+            </form>
+            <p id="formMessage"></p>
+        </section>
+        <section class="database-section">
+            <h2>Base de dados e cópias de segurança</h2>
+            <p>Descarrega uma cópia dos teus projetos ou importa uma cópia anterior para recuperar os dados.</p>
+            <div class="database-actions">
+                <button type="button" id="exportJson" class="tool-btn">Descarregar cópia (JSON)</button>
+                <button type="button" id="exportCsv" class="tool-btn">Descarregar lista (CSV)</button>
+                <button type="button" id="importBackup" class="tool-btn">Restaurar cópia</button>
+                <input type="file" id="backupFile" accept=".json,application/json" hidden>
+                <button type="button" id="deleteAll" class="danger-btn">Apagar todos os projetos</button>
+            </div>
+            <p id="databaseMessage" class="database-message" role="status" aria-live="polite"></p>
+        </section>
+        <section class="projects-section"><h2>Projetos na base de dados</h2><div id="projectsList"><p class="empty-message">A carregar projectos...</p></div></section>
+        </div>
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="config.js"></script>
+    <script src="admin.js"></script>
+</body>
+</html>
